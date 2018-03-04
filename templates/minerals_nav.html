@@ -1,0 +1,5 @@
+{% for group in groups %}
+    <li style="display: inline-block">
+        <a class="hover" href="{% url 'minerals:group' group=group %}">{{ group }}</a>
+    </li>
+{% endfor %}

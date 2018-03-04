@@ -1,0 +1,60 @@
+{% load static from staticfiles %}
+{% load mineral_extras %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Macky's Minerals: A magnificant catalog of minerals{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Cousine' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% block static %}<link rel="stylesheet" type="text/css" href={% static 'css/global.css' %}>{% endblock %}
+    </head>
+    <body>
+        <div class="bounds">
+            <div class="grid-100">
+                <a href="{% url "minerals:index" %}"><svg class="logo" viewbox="0 0 127.6 84.8">
+                <polygon points="42.7,84.8 49.6,79.4 40,62.5 51.2,43.5 51.2,43.5 25,0 0,55.6"></polygon>
+                <polygon class="logo--middle" points="52.9,79.5 52.9,79.5 84.8,80.1 59.7,35 43.3,62.4"></polygon>
+                <polygon points="127.6,61.4 127.6,61.4 110.3,13.5 110.3,13.5 70.3,48.1 70.3,48.1 88.3,80.5 95.3,81.4 95.3,81.4"></polygon></svg>
+                <h1 class="logo__name text-centered">Macky's Minerals</h1></a>
+                <p class="logo__text text-centered">They're not rocks!</p>
+                <form action="{% url 'minerals:search' %}" class="example" method="get" style="margin:auto;max-width:400px">
+                    <ul style="text-align: center">
+                        <li style="display: inline-block"><input name="q" type="search"></li>
+                        <li style="display: inline-block"><button type="submit"><i class="fa fa-search"></i></button></li>
+                    </ul>
+                </form>
+            </div>
+            <div class="grid-100">
+                <h3 style="text-align: center">Select Mineral by Letter:</h3>
+                <ul style="text-align: center">
+                    <li style="display: inline-block">
+                    {% for letter in "abcdefghijklmnopqrstuvwxyz" %}
+                        <a href="{% url 'minerals:letter' letter=letter %}">{{ letter|upper }}</a>
+                    {% endfor %}
+                    </li>
+                </ul>
+            </div>
+                <div class="grid-100">
+                    <div class="grid-15">
+                        <ul style="text-align: center">
+                            {% nav_minerals_list %}
+                        </ul>
+                    </div>
+                    <div class="grid-80">
+                        {% block content %} {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="minerals__random">
+            <a class="minerals__anchor" href="{% url 'minerals:detail' pk=mineral.pk|random_mineral%}">Show random mineral</a>
+        </div>
+    </body>
+</html>
